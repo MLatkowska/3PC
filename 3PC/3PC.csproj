@@ -142,14 +142,6 @@
     <Compile Include="CohortActor.cs" />
     <Compile Include="ConsoleColorFactory.cs" />
     <Compile Include="CoordinatorActor.cs" />
-    <Compile Include="Messages\Abort.cs" />
-    <Compile Include="Messages\Agree.cs" />
-    <Compile Include="Messages\AgreeRequest.cs" />
-    <Compile Include="Messages\Commit.cs" />
-    <Compile Include="Messages\Fail.cs" />
-    <Compile Include="Messages\PrepareAck.cs" />
-    <Compile Include="Messages\Prepare.cs" />
-    <Compile Include="Messages\Rollback.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Supervisor.cs" />
@@ -159,6 +151,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\3PCMessages\3PCMessages.csproj">
+      <Project>{4faf21b8-2ef2-4fd3-a670-95217af7db78}</Project>
+      <Name>3PCMessages</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Akka.Actor;
+using _3PC;
 using _3PC.Messages;
 
-namespace _3PC
+namespace _3PCMessages
 {
     class Program
     {
@@ -47,14 +48,10 @@ namespace _3PC
                         case ConsoleKey.U:
                             supervisor.Tell("Cohort");
                             break;
-                            //case ConsoleKey.O:
-                            //    supervisor.Tell(LooseNextPong.Instance);
-                            //    break;
                     }
                 }
             }
         }
-
 
         private static int GetAgreeCohortCount()
         {

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace _3PC.Messages
 {
-    class Agree
+    public class Prepare
     {
-        public static Agree Instance = new Agree();
-        private Agree() { }
+        public static Prepare Instance = new Prepare();
+        private Prepare() { }
     }
 }
