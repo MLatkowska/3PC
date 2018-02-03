@@ -6,7 +6,7 @@ namespace _3PC.Shared
     {
         public static ConsoleColor FromId(int id)
         {
-            switch (id)
+            switch (id % 7)
             {
                 case 0: return ConsoleColor.DarkCyan;
                 case 1: return ConsoleColor.Blue;

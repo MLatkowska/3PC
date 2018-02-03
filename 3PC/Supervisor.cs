@@ -49,7 +49,7 @@ namespace _3PC
 
         private void StartCoordinator()
         {
-            _coordinator.Tell(CoordinatorActor.Start.Instance);
+            _coordinator.Tell(AgreeRequest.Instance);
         }
 
         private void CreateCohortsAndCoordinator()
@@ -64,7 +64,7 @@ namespace _3PC
                 Console.WriteLine($"Creating {_cohortCount} cohorts...");
                 for (int i = 1; i <= _agreeCount; i++)
                 {
-                    _cohorts.Add(Context.System.ActorOf(CohortActor.Props(i, true), "cohort"+i));
+                    _cohorts.Add(Context.System.ActorOf(CohortActor.Props(i, true), "cohort" + i));
                 }
                 for (int i = _agreeCount + 1; i <= _cohortCount; i++)
                 {

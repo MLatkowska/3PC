@@ -20,61 +20,12 @@ namespace _3PC.Shared
 
         private static void Run3PC()
         {
-            var config = ConfigurationFactory.ParseString(@"
-                akka {  
-                    actor{
-                        provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
-                        deployment {
-                            /cohort1 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                            /cohort2 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                            /cohort3 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                            /cohort4 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                            /cohort5 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                            /cohort6 {
-                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
-                            }
-                        }
-                    }
-                    remote {
-                        helios.tcp {
-		                    port = 0
-		                    hostname = localhost
-                        }
-                    }
-                }");
-
-            using (var system = ActorSystem.Create("Deployer", config))
+            using (var system = ActorSystem.Create("Deployer"))
             {
 
                 int agreeCount = GetAgreeCohortCount();
                 int abortCount = GetAbortCohortCount();
                 var supervisor = system.ActorOf(Supervisor.Props(agreeCount, abortCount), "supervisor");
-
-                //var remoteAddress = Address.Parse("akka.tcp://CohortDeployTarget@localhost:8090");
-                //var coordinator =
-                 //   system.ActorOf(Props.Create(() => new CoordinatorActor(new List<IActorRef>())), "coordinator");
-                //var remoteEcho2 =
-                //    system.ActorOf(
-                //        Props.Create(() => new EchoActor())
-                //            .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress))),
-                //        "coderemoteecho"); //deploy remotely via code
-
-                //system.ActorOf(Props.Create(() => new HelloActor(remoteEcho1)));
-                //system.ActorOf(Props.Create(() => new HelloActor(remoteEcho2)));
-
-                //system.ActorSelection("/user/remoteecho").Tell(new Hello("hi from selection!"));
-
-
 
                 bool run = true;
                 while (run)

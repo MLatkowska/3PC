@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3PC", "3PC\3PC.csproj", "{1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3PC.Shared", "3PCMessages\3PC.Shared.csproj", "{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohort", "Cohort\Cohort.csproj", "{C63897F7-923A-4400-A407-50B9DD0511C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3PC.DeployTarget", "Cohort\3PC.DeployTarget.csproj", "{C63897F7-923A-4400-A407-50B9DD0511C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Akka.Actor;
 using Akka.Event;
 using _3PC.Shared.Messages;
@@ -8,29 +7,21 @@ namespace _3PC.Shared.Actors
 {
     public class CohortActor : UntypedActor
     {
-        private const int DELAY_IN_MS = 1500;
+        private const int DELAY_IN_MS = 500;
 
         private readonly int _id;
         private readonly bool _shouldAgree;
-        private int _timerCount = 0;
         private readonly IActorRef _timerActorRef;
-        private static readonly Object ConsoleLock = new Object();
 
         public CohortActor(int id, bool shouldAgree)
         {
             _id = id;
             _shouldAgree = shouldAgree;
-            _timerActorRef = Context.ActorOf<TimerActor>();
+            _timerActorRef = Context.ActorOf<TimerActor>("timer"+_id);
         }
-
-        public ILoggingAdapter Log { get; } = Context.GetLogger();
-
-        protected override void PreStart() => Log.Info($"Cohort {_id} starting.");
-        protected override void PostStop() => Log.Info($"Cohort {_id} stopping.");
 
         protected override void OnReceive(object message)
         {
-            Delay();
             switch (message)
             {
                 case AgreeRequest _:
@@ -53,11 +44,11 @@ namespace _3PC.Shared.Actors
                     Become(A);
                     break;
             }
+            Delay();
         }
 
         private void W(object message)
         {
-            Delay();
             switch (message)
             {
                 case Prepare _:
@@ -70,23 +61,20 @@ namespace _3PC.Shared.Actors
                     Print("Rollback, W -> A");
                     Become(A);
                     break;
-                case TimerActor.Timeout _:
-                    if (IsTimeout())
-                    {
-                        Print("Timeout, W -> A");
-                        Become(A);
-                    }
+                case Timeout _:
+                    Print("Timeout, W -> A");
+                    Become(A);
                     break;
                 case Fail _:
                     Print("Fail, W -> A");
                     Become(A);
                     break;
             }
+            Delay();
         }
 
         private void P(object message)
         {
-            Delay();
             switch (message)
             {
                 case Commit _:
@@ -97,18 +85,16 @@ namespace _3PC.Shared.Actors
                     Print("Rollback, P -> A");
                     Become(A);
                     break;
-                case TimerActor.Timeout _:
-                    if (IsTimeout())
-                    {
-                        Print("Timeout, P -> C");
-                        Become(C);
-                    }
+                case Timeout _:
+                    Print("Timeout, P -> C");
+                    Become(C);
                     break;
                 case Fail _:
                     Print("Fail, P -> C");
                     Become(C);
                     break;
             }
+            Delay();
         }
 
         private void C(object message)
@@ -123,18 +109,12 @@ namespace _3PC.Shared.Actors
 
         private void StartTimer()
         {
-            _timerActorRef.Tell(TimerActor.Start.Instance);
-            _timerCount++;
+            _timerActorRef.Tell(new StartTimer(20));
         }
 
-        private bool IsTimeout()
-        {
-            _timerCount--;
-            return _timerCount <= 0;
-        }
         private void Delay()
         {
-            Thread.Sleep(DELAY_IN_MS);
+            System.Threading.Thread.Sleep(DELAY_IN_MS);
         }
 
         private void Terminate()
@@ -145,12 +125,7 @@ namespace _3PC.Shared.Actors
 
         private void Print(string messageToPrint)
         {
-            lock (ConsoleLock)
-            {
-                Console.ForegroundColor = ConsoleColorFactory.FromId(_id);
-                Console.WriteLine($"{_id}:\t{messageToPrint}");
-                Console.ResetColor();
-            }
+            ColorfulConsole.WriteLine(_id, messageToPrint);
         }
 
         public static Props Props(int id, bool shouldAgree) =>
