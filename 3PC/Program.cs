@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Akka.Actor;
-using _3PC;
-using _3PC.Messages;
+using Akka.Configuration;
 
-namespace _3PCMessages
+namespace _3PC.Shared
 {
     class Program
     {
         static void Main(string[] args)
         {
-        
+
             while (true)
             {
                 Run3PC();
@@ -25,11 +20,61 @@ namespace _3PCMessages
 
         private static void Run3PC()
         {
-            using (var system = ActorSystem.Create("3pc-system"))
+            var config = ConfigurationFactory.ParseString(@"
+                akka {  
+                    actor{
+                        provider = ""Akka.Remote.RemoteActorRefProvider, Akka.Remote""
+                        deployment {
+                            /cohort1 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                            /cohort2 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                            /cohort3 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                            /cohort4 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                            /cohort5 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                            /cohort6 {
+                                remote = ""akka.tcp://CohortDeployTarget@localhost:8090""
+                            }
+                        }
+                    }
+                    remote {
+                        helios.tcp {
+		                    port = 0
+		                    hostname = localhost
+                        }
+                    }
+                }");
+
+            using (var system = ActorSystem.Create("Deployer", config))
             {
+
                 int agreeCount = GetAgreeCohortCount();
                 int abortCount = GetAbortCohortCount();
                 var supervisor = system.ActorOf(Supervisor.Props(agreeCount, abortCount), "supervisor");
+
+                //var remoteAddress = Address.Parse("akka.tcp://CohortDeployTarget@localhost:8090");
+                //var coordinator =
+                 //   system.ActorOf(Props.Create(() => new CoordinatorActor(new List<IActorRef>())), "coordinator");
+                //var remoteEcho2 =
+                //    system.ActorOf(
+                //        Props.Create(() => new EchoActor())
+                //            .WithDeploy(Deploy.None.WithScope(new RemoteScope(remoteAddress))),
+                //        "coderemoteecho"); //deploy remotely via code
+
+                //system.ActorOf(Props.Create(() => new HelloActor(remoteEcho1)));
+                //system.ActorOf(Props.Create(() => new HelloActor(remoteEcho2)));
+
+                //system.ActorSelection("/user/remoteecho").Tell(new Hello("hi from selection!"));
+
+
 
                 bool run = true;
                 while (run)
@@ -51,6 +96,8 @@ namespace _3PCMessages
                     }
                 }
             }
+
+            Console.ReadKey();
         }
 
         private static int GetAgreeCohortCount()

@@ -1,7 +1,7 @@
 ﻿using System;
 using Akka.Actor;
 
-namespace _3PC
+namespace _3PC.Shared.Actors
 {
     public class TimerActor : UntypedActor
     {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Akka.Actor;
 using Akka.Event;
-using _3PC.Messages;
-using _3PCMessages;
+using _3PC.Shared.Actors;
+using _3PC.Shared.Messages;
 
 namespace _3PC
 {
@@ -15,8 +15,8 @@ namespace _3PC
         private int _cohortCount;
         private readonly List<IActorRef> _cohorts = new List<IActorRef>();
         private IActorRef _coordinator;
-        private int _agreeCount;
-        private int _abortCount;
+        private readonly int _agreeCount;
+        private readonly int _abortCount;
 
         public Supervisor(int agreeCount, int abortCount)
         {
@@ -64,15 +64,15 @@ namespace _3PC
                 Console.WriteLine($"Creating {_cohortCount} cohorts...");
                 for (int i = 1; i <= _agreeCount; i++)
                 {
-                    _cohorts.Add(Context.ActorOf(CohortActor.Props(i, true)));
+                    _cohorts.Add(Context.System.ActorOf(CohortActor.Props(i, true), "cohort"+i));
                 }
-                for (int i = _agreeCount+1; i <= _cohortCount; i++)
+                for (int i = _agreeCount + 1; i <= _cohortCount; i++)
                 {
-                    _cohorts.Add(Context.ActorOf(CohortActor.Props(i, false)));
+                    _cohorts.Add(Context.System.ActorOf(CohortActor.Props(i, false), "cohort" + i));
                 }
 
                 Console.WriteLine($"Creating coordinator...");
-                _coordinator = Context.ActorOf(CoordinatorActor.Props(_cohorts));
+                _coordinator = Context.System.ActorOf(CoordinatorActor.Props(_cohorts), "coordinator");
 
                 Console.WriteLine($"Cohorts and coordinator created.");
             }

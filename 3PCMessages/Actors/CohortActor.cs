@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Net.NetworkInformation;
 using System.Threading;
 using Akka.Actor;
 using Akka.Event;
-using _3PC.Messages;
-using _3PCMessages;
+using _3PC.Shared.Messages;
 
-namespace _3PC
+namespace _3PC.Shared.Actors
 {
     public class CohortActor : UntypedActor
     {

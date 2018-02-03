@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.27004.2009
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3PC", "3PC\3PC.csproj", "{1E97093F-D0C4-44B4-AE70-1A10280425F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3PCMessages", "3PCMessages\3PCMessages.csproj", "{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3PC.Shared", "3PCMessages\3PC.Shared.csproj", "{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cohort", "Cohort\Cohort.csproj", "{C63897F7-923A-4400-A407-50B9DD0511C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FAF21B8-2EF2-4FD3-A670-95217AF7DB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C63897F7-923A-4400-A407-50B9DD0511C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C63897F7-923A-4400-A407-50B9DD0511C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C63897F7-923A-4400-A407-50B9DD0511C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C63897F7-923A-4400-A407-50B9DD0511C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

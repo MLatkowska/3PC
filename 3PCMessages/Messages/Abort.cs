@@ -1,4 +1,4 @@
-﻿namespace _3PCMessages
+﻿namespace _3PC.Shared.Messages
 {
     public class Abort
     {

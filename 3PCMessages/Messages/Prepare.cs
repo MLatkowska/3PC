@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _3PC.Messages
+namespace _3PC.Shared.Messages
 {
     public class Prepare
     {
