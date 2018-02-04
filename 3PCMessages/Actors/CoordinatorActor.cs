@@ -36,6 +36,7 @@ namespace _3PC.Shared.Actors
             switch (message)
             {
                 case object _:
+                    Print($"Sending agree request, Q0 -> W0");
                     SendToCohorts(AgreeRequest.Instance);
                     StartTimer();
                     Become(W0);

@@ -22,6 +22,7 @@ namespace _3PC.Shared.Actors
 
         protected override void OnReceive(object message)
         {
+            Delay();
             switch (message)
             {
                 case AgreeRequest _:

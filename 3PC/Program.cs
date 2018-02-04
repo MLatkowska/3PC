@@ -38,11 +38,10 @@ namespace _3PC.Shared
                         case ConsoleKey.Escape:
                             run = false;
                             break;
-                        case ConsoleKey.K:
-                            supervisor.Tell("Coordinator");
-                            break;
-                        case ConsoleKey.U:
-                            supervisor.Tell("Cohort");
+                        case ConsoleKey key:
+                            int digitKey = (int)key - 48;
+                            if (digitKey >= 0 && digitKey <= 9)
+                                supervisor.Tell(digitKey);
                             break;
                     }
                 }

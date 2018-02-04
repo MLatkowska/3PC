@@ -21,8 +21,7 @@ namespace _3PC.Shared.Actors
 
         protected override void PostStop()
         {
-            _scheduledTimeout.Cancel();
-            base.PostStop();
+            _scheduledTimeout?.Cancel();
         }
 
         public static Props Props() => Akka.Actor.Props.Create<TimerActor>();

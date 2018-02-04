@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Akka.Actor;
 using Akka.Event;
 using _3PC.Shared.Actors;
@@ -35,11 +36,11 @@ namespace _3PC
                 case "start":
                     StartCoordinator();
                     break;
-                case "Coordinator":
-                    _coordinator.Tell(Fail.Instance);
-                    break;
-                case "Cohort":
-                    _cohorts.First().Tell(Fail.Instance);
+                case int id:
+                    if(id == 0)
+                        _coordinator.Tell(Fail.Instance);
+                    else if (id > 0 && id <= _cohortCount)
+                        _cohorts.ElementAt(id-1).Tell(Fail.Instance);
                     break;
                 default:
                     Log.Warning($"Received unsupported message {message}");
