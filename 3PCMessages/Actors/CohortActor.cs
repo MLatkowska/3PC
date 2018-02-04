@@ -98,15 +98,9 @@ namespace _3PC.Shared.Actors
             Delay();
         }
 
-        private void C(object message)
-        {
-            Terminate();
-        }
+        private void C(object message) { }
 
-        private void A(object message)
-        {
-            Terminate();
-        }
+        private void A(object message) { }
 
         private void StartTimer()
         {
@@ -116,12 +110,6 @@ namespace _3PC.Shared.Actors
         private void Delay()
         {
             System.Threading.Thread.Sleep(DELAY_IN_MS);
-        }
-
-        private void Terminate()
-        {
-            Context.Stop(_timerActorRef);
-            Context.Stop(Self);
         }
 
         private void Print(string messageToPrint)

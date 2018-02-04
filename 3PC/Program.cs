@@ -36,6 +36,7 @@ namespace _3PC.Shared
                             supervisor.Tell("start");
                             break;
                         case ConsoleKey.Escape:
+                            supervisor.Tell("stop");
                             run = false;
                             break;
                         case ConsoleKey key:
@@ -46,8 +47,6 @@ namespace _3PC.Shared
                     }
                 }
             }
-
-            Console.ReadKey();
         }
 
         private static int GetAgreeCohortCount()

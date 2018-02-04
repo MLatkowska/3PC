@@ -112,15 +112,9 @@ namespace _3PC.Shared.Actors
             Delay();
         }
 
-        private void C0(object message)
-        {
-            Terminate();
-        }
+        private void C0(object message) { }
 
-        private void A0(object message)
-        {
-            Terminate();
-        }
+        private void A0(object message) { }
 
         private void SendToCohorts(Object message)
         {
@@ -140,11 +134,6 @@ namespace _3PC.Shared.Actors
             System.Threading.Thread.Sleep(DELAY_IN_MS);
         }
 
-        private void Terminate()
-        {
-            Context.Stop(_timerActorRef);
-            Context.Stop(Self);
-        }
 
         private void Print(string messageToPrint)
         {

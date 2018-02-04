@@ -34,23 +34,39 @@ namespace _3PC
             switch (message)
             {
                 case "start":
-                    StartCoordinator();
+                    Start();
+                    break;
+                case "stop":
+                    Stop();
                     break;
                 case int id:
-                    if(id == 0)
-                        _coordinator.Tell(Fail.Instance);
-                    else if (id > 0 && id <= _cohortCount)
-                        _cohorts.ElementAt(id-1).Tell(Fail.Instance);
+                    SimulateFailure(id);
                     break;
                 default:
                     Log.Warning($"Received unsupported message {message}");
                     break;
             }
         }
-
-        private void StartCoordinator()
+        private void Start()
         {
             _coordinator.Tell(AgreeRequest.Instance);
+        }
+
+        private void SimulateFailure(int id)
+        {
+            if (id == 0)
+                _coordinator.Tell(Fail.Instance);
+            else if (id > 0 && id <= _cohortCount)
+                _cohorts.ElementAt(id - 1).Tell(Fail.Instance);
+        }
+
+        private void Stop()
+        {
+            foreach (IActorRef cohort in _cohorts)
+            {
+                Context.Stop(cohort);
+            }
+            Context.Stop(_coordinator);
         }
 
         private void CreateCohortsAndCoordinator()
